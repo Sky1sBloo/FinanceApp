@@ -1,0 +1,62 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-8">
+            <section class="row" style="height: 25vh;">
+                <article class="col-4 border">
+                    <h3>Info</h3>
+                    <p><strong># of Transactions:</strong> 0</p>
+                    <p><strong>Total Expenses:</strong> 0</p>
+                    <p><strong>Net Balance:</strong> 0</p>
+                    <p><strong>Avg Transaction Amount::</strong> 0</p>
+                </article>
+                <article class="col-8 border d-flex flex-row text-center">
+                    <canvas width="280" height="200" id="spendingPieChart"></canvas>
+                    <canvas id="spendingLineChart" width="280" height="200"></canvas>
+                </article>
+            </section>
+            <section class="row" style="height: 55vh;">
+                <article class="col-12 border">
+                    @await Html.PartialAsync("_ExpenseTable")
+                </article>
+            </section>
+        </div>
+        <section class="col-4 border d-flex flex-column">
+            <section class="row" style="height:30vh;">
+                <article class="pl-3 pr-3">
+                    <div class="pt-3 border-bottom d-flex flex-row justify-content-between">
+                        <h5>Savings</h5>
+                        <p>Php 0.00</p>
+                    </div>
+                    <div class="pt-3 border-bottom d-flex flex-row justify-content-between">
+                        <h5>Daily Budget</h5>
+                        <p>Php 0.00</p>
+                    </div>
+                    <div class="pt-3 border-bottom d-flex flex-row justify-content-between">
+                        <h5>Monthly Budget</h5>
+                        <p>Php 0.00</p>
+                    </div>
+                    <div class="pt-3 border-bottom d-flex flex-row justify-content-between">
+                        <h5>Yearly Budget</h5>
+                        <p>Php 0.00</p>
+                    </div>
+
+                </article>
+            </section>
+            <section class="row">
+                <article>
+                    @await Html.PartialAsync("_GoalsTable")
+                </article>
+            </section>
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="~/js/TransactionPie.js"></script>
+    <script src="~/js/TransactionLine.js"></script>
+}

@@ -1,0 +1,73 @@
+@{
+    ViewData["Title"] = "Subscriptions";
+}
+<div class="container-fluid border" style="height: 80vh">
+    <section class="border-bottom">
+        <h4 class="pt-2">Subscriptions</h4>
+        <form class="container pb-2">
+            <div class="row">
+                <div class="col d-flex flex-column">
+                    <label>Name</label>
+                    <input type="text" />
+                    <label>Category</label>
+                    <partial name="_ExpenseCategories" />
+                    <label>Amount (in Php)</label>
+                    <input type="number" placeholder="0.00" />
+                </div>
+                <div class="col d-flex flex-column">
+                    <label>Frequency</label>
+                    <select>
+                        <option>Daily</option>
+                        <option>Weekly</option>
+                        <option>Monthly</option>
+                        <option>Yearly</option>
+                    </select>
+                    <label>Start Date</label>
+                    <input type="date" />
+                    <label>End Date</label>
+                    <input type="date" />
+                </div>
+            </div>
+            <div class="text-end">
+                <input class="mt-2" type="submit" value="submit"/>
+            </div>
+        </form>
+    </section>
+    <section>
+        <form class="d-flex justify-content-between">
+            <h4>Subscriptions</h4>
+            <div>
+                <input type="button" value="+" />
+                <input type="button" value="-" />
+                <input type="button" value="edit" />
+                <label>Search</label>
+                <input type="text" />
+                <input type="submit" value="Search" />
+            </div>
+        </form>
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Frequency</th>
+                    <th scope="col">Start Date</th>
+                    <th scope="col">End Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Test</td>
+                    <td>Test</td>
+                    <td>Test</td>
+                    <td>Test</td>
+                    <td>Test</td>
+                    <td>Test</td>
+                    <td>Test</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</div>
