@@ -1,7 +1,11 @@
-public enum FrequencyType
+namespace FinanceApp.Models.Enums
 {
-    DAILY,
-    WEEKLY,
-    MONTHLY,
-    YEARLY
+    public enum FrequencyType
+    {
+        DAILY,
+        WEEKLY,
+        MONTHLY,
+        YEARLY
+    }
 }
+

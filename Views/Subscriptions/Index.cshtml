@@ -1,6 +1,10 @@
 @{
-    ViewData["Title"] = "Subscriptions";
+ViewData["Title"] = "Subscriptions";
 }
+
+@using FinanceApp.Models.Enums
+@model FinanceApp.Models.Entities.SubscriptionForm
+
 <div class="container-fluid border" style="height: 80vh">
     <section class="border-bottom">
         <h4 class="pt-2">Subscriptions</h4>
@@ -8,19 +12,19 @@
             <div class="row">
                 <div class="col d-flex flex-column">
                     <label>Name</label>
-                    <input type="text" />
+                    <input type="text" class="form-control" asp-for="Name" />
                     <label>Category</label>
                     <partial name="_ExpenseCategories" />
                     <label>Amount (in Php)</label>
-                    <input type="number" placeholder="0.00" />
+                    <input type="number" placeholder="0" class="form-control" asp-for="Amount" />
                 </div>
                 <div class="col d-flex flex-column">
                     <label>Frequency</label>
                     <select>
-                        <option>Daily</option>
-                        <option>Weekly</option>
-                        <option>Monthly</option>
-                        <option>Yearly</option>
+                        @foreach (var category in Enum.GetValues(typeof(FrequencyType)))
+                        {
+                        <option value="@category">@category</option>
+                        }
                     </select>
                     <label>Start Date</label>
                     <input type="date" />
@@ -29,7 +33,7 @@
                 </div>
             </div>
             <div class="text-end">
-                <input class="mt-2" type="submit" value="submit"/>
+                <input class="mt-2" type="submit" value="submit" />
             </div>
         </form>
     </section>

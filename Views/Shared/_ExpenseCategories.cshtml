@@ -1,10 +1,8 @@
-<select>
-    <option>Housing</option>
-    <option>Food</option>
-    <option>Transportation</option>
-    <option>Personal</option>
-    <option>Medical</option>
-    <option>Education</option>
-    <option>Financial Obligations</option>
-    <option>Others</option>
+@using FinanceApp.Models.Enums
+@model FinanceApp.Models.Entities.SubscriptionForm
+
+<select asp-for="Category" class="form-control">
+    @foreach (var category in Enum.GetValues(typeof(TransactionCategory))) {
+    <option value="@category">@category</option>
+    }
 </select>

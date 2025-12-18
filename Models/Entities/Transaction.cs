@@ -1,3 +1,5 @@
+using FinanceApp.Models.Enums;
+
 namespace FinanceApp.Models.Entities
 {
     public class Transaction

@@ -2,9 +2,8 @@ using FinanceApp.Models.Enums;
 
 namespace FinanceApp.Models.Entities
 {
-    public class Subscription
+    public class SubscriptionForm
     {
-        public Guid Id { get; set; }
         public required string Name { get; set; }
         public TransactionCategory Category { get; set; }
         public int Amount { get; set; }

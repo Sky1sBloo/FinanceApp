@@ -1,6 +1,10 @@
-public enum TransactionCategory
+namespace FinanceApp.Models.Enums
 {
-    INCOME,
-    EXPENSES,
-    TRANSFER
+    public enum TransactionCategory
+    {
+        INCOME,
+        EXPENSES,
+        TRANSFER
+    }
 }
+
