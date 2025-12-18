@@ -1,8 +1,5 @@
 @using FinanceApp.Models.Enums
-@model FinanceApp.Models.Entities.SubscriptionForm
 
-<select asp-for="Category" class="form-control">
-    @foreach (var category in Enum.GetValues(typeof(TransactionCategory))) {
-    <option value="@category">@category</option>
-    }
-</select>
+@foreach (var category in Enum.GetValues(typeof(TransactionCategory))) {
+<option value="@category">@category</option>
+}

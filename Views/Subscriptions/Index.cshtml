@@ -3,37 +3,39 @@ ViewData["Title"] = "Subscriptions";
 }
 
 @using FinanceApp.Models.Enums
-@model FinanceApp.Models.Entities.SubscriptionForm
+@model FinanceApp.Models.Entities.SubscriptionIndexViewModel
 
 <div class="container-fluid border" style="height: 80vh">
     <section class="border-bottom">
         <h4 class="pt-2">Subscriptions</h4>
-        <form class="container pb-2">
+        <form class="container pb-2" method="post">
             <div class="row">
                 <div class="col d-flex flex-column">
                     <label>Name</label>
-                    <input type="text" class="form-control" asp-for="Name" />
+                    <input type="text" class="form-control" asp-for="Form.Name" />
                     <label>Category</label>
-                    <partial name="_ExpenseCategories" />
+                    <select asp-for="Form.Category" class="form-control">
+                        <partial name="_ExpenseCategories" />
+                    </select>
                     <label>Amount (in Php)</label>
-                    <input type="number" placeholder="0" class="form-control" asp-for="Amount" />
+                    <input type="number" placeholder="0" class="form-control" asp-for="Form.Amount" />
                 </div>
                 <div class="col d-flex flex-column">
                     <label>Frequency</label>
-                    <select>
+                    <select class="form-control" asp-for="Form.Frequency">
                         @foreach (var category in Enum.GetValues(typeof(FrequencyType)))
                         {
                         <option value="@category">@category</option>
                         }
                     </select>
                     <label>Start Date</label>
-                    <input type="date" />
+                    <input class="form-control" type="date" asp-for="Form.StartDate" />
                     <label>End Date</label>
-                    <input type="date" />
+                    <input class="form-control" type="date" asp-for="Form.EndDate" />
                 </div>
             </div>
             <div class="text-end">
-                <input class="mt-2" type="submit" value="submit" />
+                <input class="mt-2 btn btn-primary" type="submit" value="submit" />
             </div>
         </form>
     </section>
@@ -61,14 +63,17 @@ ViewData["Title"] = "Subscriptions";
                 </tr>
             </thead>
             <tbody>
+                @foreach (var subscription in Model.Subscriptions)
+                {
                 <tr>
-                    <td>Test</td>
-                    <td>Test</td>
-                    <td>Test</td>
-                    <td>Test</td>
-                    <td>Test</td>
-                    <td>Test</td>
+                    <td>@subscription.Name</td>
+                    <td>@subscription.Category</td>
+                    <td>@subscription.Amount</td>
+                    <td>@subscription.Frequency</td>
+                    <td>@subscription.StartDate</td>
+                    <td>@subscription.EndDate</td>
                 </tr>
+                }
             </tbody>
         </table>
     </section>
