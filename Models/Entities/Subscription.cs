@@ -2,6 +2,7 @@ namespace FinanceApp.Models.Entities
 {
     public class Subscription
     {
+        public Guid Id { get; set; }
         public required string Name { get; set; }
         public TransactionCategory Category { get; set; }
         public int Amount { get; set; }
