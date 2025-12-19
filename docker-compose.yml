@@ -1,0 +1,27 @@
+
+services:
+  sql_server:
+    image: "mcr.microsoft.com/mssql/server:2025-latest"
+    container_name: finance_app_sql
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "Password@1234"
+    ports: 
+      - "1433:1433"
+    volumes:
+      - sql_data:/var/opt/mssql
+
+  webapp:
+    build: .
+    container_name: finance_app_web
+    depends_on:
+      - sql_server
+    ports:
+      - 5234:5234
+    environment:
+      ASPNETCORE_URLS: http://+:5234
+      ASPNETCORE_ENVIRONMENT: Development
+
+volumes:
+  sql_data:
+
