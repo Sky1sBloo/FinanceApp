@@ -14,44 +14,32 @@ public class SubscriptionsController : Controller
     }
 
     [HttpGet]
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        var subscriptions = dbContext.Subscriptions.ToList();
-        var viewModel = new SubscriptionIndexViewModel
-        {
-            Form = new SubscriptionForm(),
-            Subscriptions = subscriptions
-        };
-
-        return View(viewModel);
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> Index(SubscriptionIndexViewModel subscriptionViewModel)
-    {
-        string subscriptionName = "Subscription";
-        if (subscriptionViewModel.Form.Name != null)
-        {
-            subscriptionName = subscriptionViewModel.Form.Name;
-        }
-        var subscription = new Subscription
-        {
-            Name = subscriptionName,
-            Category = subscriptionViewModel.Form.Category,
-            Amount = subscriptionViewModel.Form.Amount,
-            Frequency = subscriptionViewModel.Form.Frequency,
-            StartDate = subscriptionViewModel.Form.StartDate,
-            EndDate = subscriptionViewModel.Form.EndDate
-        };
-        await dbContext.Subscriptions.AddAsync(subscription);
         await dbContext.SaveChangesAsync();
         var subscriptions = dbContext.Subscriptions.ToList();
 
         var viewModel = new SubscriptionIndexViewModel
         {
-            Form = subscriptionViewModel.Form,
             Subscriptions = subscriptions
         };
         return View(viewModel);
+    }
+
+    [HttpGet]
+    public IActionResult Create() => View();
+    [HttpPost]
+    public async Task<IActionResult> Create(SubscriptionForm subscriptionForm)
+    {
+        var subscription = new Subscription
+        {
+            Name = subscriptionForm.Name,
+            Category = subscriptionForm.Category,
+            Amount = subscriptionForm.Amount,
+            Frequency = subscriptionForm.Frequency,
+            StartDate = subscriptionForm.StartDate,
+            EndDate = subscriptionForm.EndDate
+        };
+        return View();
     }
 }

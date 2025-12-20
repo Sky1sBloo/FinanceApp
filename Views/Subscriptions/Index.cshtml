@@ -38,8 +38,8 @@
                     <td>@subscription.Category</td>
                     <td>@subscription.Amount</td>
                     <td>@subscription.Frequency</td>
-                    <td>@subscription.StartDate.ToString("MM/dd/yyyy")</td>
-                    <td>@subscription.EndDate.ToString("MM/dd/yyyy")</td>
+                    <td>@(subscription.StartDate.HasValue ? subscription.StartDate.Value.ToString("MM/dd/yyyy") : "-")</td>
+                    <td>@(subscription.EndDate.HasValue ? subscription.EndDate.Value.ToString("MM/dd/yyyy") : "-")</td>
                 </tr>
             }
         </tbody>

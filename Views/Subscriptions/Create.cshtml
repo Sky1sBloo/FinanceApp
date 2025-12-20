@@ -5,30 +5,31 @@
 @using FinanceApp.Models.Enums
 @model FinanceApp.Models.Entities.SubscriptionForm
 
-<div class="container-fluid border" style="height: 80vh">
+<div class="container-fluid border" style="min-width: 400px; width: 60vh">
     <h4 class="pt-2">Subscriptions</h4>
     <form class="container pb-2" method="post">
         <div class="col d-flex flex-column">
-            <label>Name</label>
-            <input type="text" class="form-control" asp-for="Name" />
-            <span asp-validation-for="Name">Required field</span>
-            <label>Category</label>
-            <select asp-for="Category" class="form-control">
+            <label for="name-input">Name<span class="text-danger">*</span></label>
+            <input id="name-input" type="text" class="form-control" asp-for="Name" />
+            <span asp-validation-for="Name" class="text-danger form-text form-text-muted"></span>
+            <label for="category-select">Category</label>
+            <select id="category-select" class="form-control" asp-for="Category">
                 <partial name="_ExpenseCategories" />
             </select>
-            <label>Amount (in Php)</label>
-            <input type="number" placeholder="0" class="form-control" asp-for="Amount" />
+            <label for="amount-input">Amount (in Php) <span class="text-danger">*</span></label>
+            <input id="amount-input" type="number" placeholder="0" class="form-control" asp-for="Amount" />
+            <span asp-validation-for="Amount" class="text-danger form-text form-text-muted"></span>
             <label>Frequency</label>
-            <select class="form-control" asp-for="Frequency">
+            <select id="frequency-select" class="form-control" asp-for="Frequency">
                 @foreach (var category in Enum.GetValues(typeof(FrequencyType)))
                 {
                     <option value="@category">@category</option>
                 }
             </select>
-            <label>Start Date</label>
-            <input class="form-control" type="date" asp-for="StartDate" />
-            <label>End Date</label>
-            <input class="form-control" type="date" asp-for="EndDate" />
+            <label for="start-date-input">Start Date</label>
+            <input id="start-date-input" class="form-control" type="date" asp-for="StartDate" />
+            <label for="end-date-input">End Date</label>
+            <input id="end-date-input" class="form-control" type="date" asp-for="EndDate" />
         </div>
         <div class="text-end">
             <input class="mt-2 btn btn-primary" type="submit" value="Save" />
@@ -36,3 +37,7 @@
         </div>
     </form>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
