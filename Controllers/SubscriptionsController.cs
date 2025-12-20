@@ -14,14 +14,19 @@ public class SubscriptionsController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(string searchTerm = "")
     {
         await dbContext.SaveChangesAsync();
-        var subscriptions = dbContext.Subscriptions.ToList();
+        var subscriptions = dbContext.Subscriptions.AsQueryable();
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            subscriptions = subscriptions.Where(s => s.Name.Contains(searchTerm));
+            ViewData["searchTerm"] = searchTerm;
+        }
 
         var viewModel = new SubscriptionIndexViewModel
         {
-            Subscriptions = subscriptions
+            Subscriptions = subscriptions.ToList()
         };
         return View(viewModel);
     }

@@ -6,16 +6,16 @@
 @model FinanceApp.Models.Entities.SubscriptionIndexViewModel
 
 <div class="container-fluid border" style="height: 80vh">
-    <section class="d-flex justify-content-between">
+    <section class="d-flex justify-content-between mt-4">
         <h4>Subscriptions</h4>
-        <div>
-            <a asp-action="Create" class="btn btn-primary mt-2">+</a>
-            <label>Search</label>
-            <input type="text" />
-            <input type="submit" value="Search" />
-        </div>
+        <form method="get" class="d-flex flex-row align-items-center gap-2">
+            <a asp-action="Create" class="btn btn-primary">+</a>
+            <label for="search-subscription">Search</label>
+            <input type="text" id="search-subscription" name="searchTerm" class="form-control" value="@ViewData["searchTerm"]"/>
+            <input type="submit" value="Search" class="btn btn-secondary"/>
+        </form>
     </section>
-    <table class="table table-striped table-hover">
+    <table class="table table-striped table-hover mt-4">
         <thead>
             <tr>
                 <th scope="col">Name</th>
@@ -30,7 +30,7 @@
         <tbody>
             @foreach (var subscription in Model.Subscriptions)
             {
-                <tr>
+                <tr class="align-middle">
                     <td>@subscription.Name</td>
                     <td>@subscription.Category</td>
                     <td>@subscription.Amount</td>
@@ -38,7 +38,7 @@
                     <td>@(subscription.StartDate.HasValue? subscription.StartDate.Value.ToString("MM/dd/yyyy") : "-")
                     </td>
                     <td>@(subscription.EndDate.HasValue? subscription.EndDate.Value.ToString("MM/dd/yyyy") : "-")</td>
-                    <td class="">
+                    <td class="d-flex flex-row gap-2">
                         <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@subscription.Id">Edit</a>
                         <form method="post" asp-action="Delete" asp-route-id="@subscription.Id"
                             onsubmit="return confirm('Are you sure you want to delete this subscription?');">
