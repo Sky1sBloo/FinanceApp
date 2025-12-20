@@ -40,6 +40,8 @@ public class SubscriptionsController : Controller
             StartDate = subscriptionForm.StartDate,
             EndDate = subscriptionForm.EndDate
         };
+        dbContext.Subscriptions.Add(subscription);
+        await dbContext.SaveChangesAsync();
         return RedirectToAction("Index");
     }
 }
