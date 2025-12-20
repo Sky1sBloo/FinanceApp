@@ -44,4 +44,46 @@ public class SubscriptionsController : Controller
         await dbContext.SaveChangesAsync();
         return RedirectToAction("Index");
     }
+
+    [HttpGet]
+    public IActionResult Edit(Guid id)
+    {
+        var subscription = dbContext.Subscriptions.Find(id);
+        if (subscription == null)
+        {
+            return NotFound();
+        }
+        SubscriptionEditForm editForm = new SubscriptionEditForm
+        {
+            Id = id,
+            SubscriptionForm = new SubscriptionForm
+            {
+                Name = subscription.Name,
+                Category = subscription.Category,
+                Amount = subscription.Amount,
+                Frequency = subscription.Frequency,
+                StartDate = subscription.StartDate,
+                EndDate = subscription.EndDate
+            }
+        };
+        return View(editForm);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Edit(Guid id, SubscriptionEditForm editForm)
+    {
+        var subscription = new Subscription
+        {
+            Id = id,
+            Name = editForm.SubscriptionForm.Name,
+            Category = editForm.SubscriptionForm.Category,
+            Amount = editForm.SubscriptionForm.Amount,
+            Frequency = editForm.SubscriptionForm.Frequency,
+            StartDate = editForm.SubscriptionForm.StartDate,
+            EndDate = editForm.SubscriptionForm.EndDate
+        };
+        dbContext.Subscriptions.Update(subscription);
+        await dbContext.SaveChangesAsync();
+        return RedirectToAction("Index");
+    }
 }

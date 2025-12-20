@@ -6,42 +6,46 @@
 @model FinanceApp.Models.Entities.SubscriptionIndexViewModel
 
 <div class="container-fluid border" style="height: 80vh">
-    <form class="d-flex justify-content-between">
-        <h4>Subscriptions</h4>
-        <div>
-            <a asp-action="Create" class="btn btn-primary mt-2">+</a>
-            <input type="button" value="-" />
-            <input type="button" value="edit" />
-            <label>Search</label>
-            <input type="text" />
-            <input type="submit" value="Search" />
-        </div>
-    </form>
-    <table class="table table-striped table-hover">
-        <thead>
-            <tr>
-                <th scope="col"></th>
-                <th scope="col">Name</th>
-                <th scope="col">Category</th>
-                <th scope="col">Amount</th>
-                <th scope="col">Frequency</th>
-                <th scope="col">Start Date</th>
-                <th scope="col">End Date</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var subscription in Model.Subscriptions)
-            {
+    <form method="put">
+        <section class="d-flex justify-content-between">
+            <h4>Subscriptions</h4>
+            <div>
+                <a asp-action="Create" class="btn btn-primary mt-2">+</a>
+                <a asp-action="Edit" class="btn btn-secondary mt-2">-</a>
+                <input type="button" value="edit" />
+                <label>Search</label>
+                <input type="text" />
+                <input type="submit" value="Search" />
+            </div>
+        </section>
+        <table class="table table-striped table-hover">
+            <thead>
                 <tr>
-                    <td><input type="radio" name="selectedSubscription" value="@subscription.Id" /></td>
-                    <td>@subscription.Name</td>
-                    <td>@subscription.Category</td>
-                    <td>@subscription.Amount</td>
-                    <td>@subscription.Frequency</td>
-                    <td>@(subscription.StartDate.HasValue ? subscription.StartDate.Value.ToString("MM/dd/yyyy") : "-")</td>
-                    <td>@(subscription.EndDate.HasValue ? subscription.EndDate.Value.ToString("MM/dd/yyyy") : "-")</td>
+                    <th scope="col">Name</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Frequency</th>
+                    <th scope="col">Start Date</th>
+                    <th scope="col">End Date</th>
+                    <th scope="col"></th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var subscription in Model.Subscriptions)
+                {
+                    <tr>
+                        <td>@subscription.Name</td>
+                        <td>@subscription.Category</td>
+                        <td>@subscription.Amount</td>
+                        <td>@subscription.Frequency</td>
+                        <td>@(subscription.StartDate.HasValue? subscription.StartDate.Value.ToString("MM/dd/yyyy") : "-")
+                        </td>
+                        <td>@(subscription.EndDate.HasValue? subscription.EndDate.Value.ToString("MM/dd/yyyy") : "-")</td>
+                        <td><a class="btn btn-secondary" asp-action="Edit"
+                                asp-route-id="@subscription.Id">Edit</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </form>
 </div>
