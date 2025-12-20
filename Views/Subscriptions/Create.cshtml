@@ -11,15 +11,13 @@
         <div class="col d-flex flex-column">
             <label for="name-input">Name<span class="text-danger">*</span></label>
             <input id="name-input" type="text" class="form-control" asp-for="Name" />
-            <span asp-validation-for="Name" class="text-danger form-text form-text-muted"></span>
             <label for="category-select">Category</label>
             <select id="category-select" class="form-control" asp-for="Category">
                 <partial name="_ExpenseCategories" />
             </select>
             <label for="amount-input">Amount (in Php) <span class="text-danger">*</span></label>
             <input id="amount-input" type="number" placeholder="0" class="form-control" asp-for="Amount" />
-            <span asp-validation-for="Amount" class="text-danger form-text form-text-muted"></span>
-            <label>Frequency</label>
+            <label for="frequency-select">Frequency</label>
             <select id="frequency-select" class="form-control" asp-for="Frequency">
                 @foreach (var category in Enum.GetValues(typeof(FrequencyType)))
                 {
@@ -30,6 +28,7 @@
             <input id="start-date-input" class="form-control" type="date" asp-for="StartDate" />
             <label for="end-date-input">End Date</label>
             <input id="end-date-input" class="form-control" type="date" asp-for="EndDate" />
+            <div asp-validation-summary="All" class="text-danger"></span>
         </div>
         <div class="text-end">
             <input class="mt-2 btn btn-primary" type="submit" value="Save" />

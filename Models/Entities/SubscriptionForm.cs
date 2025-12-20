@@ -5,11 +5,11 @@ namespace FinanceApp.Models.Entities
 {
     public class SubscriptionForm
     {
-        [Required(ErrorMessage = "Required field")]
+        [Required(ErrorMessage = "Name is a required field")]
         public required string Name { get; set; }
         public TransactionCategory Category { get; set; }
 
-        [Required(ErrorMessage = "Required field")]
+        [Required(ErrorMessage = "Amount is a required field")]
         public int Amount { get; set; }
         public FrequencyType Frequency { get; set; }
         public DateTime? StartDate { get; set; }
