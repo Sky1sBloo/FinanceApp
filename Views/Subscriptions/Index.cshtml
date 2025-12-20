@@ -72,8 +72,8 @@ ViewData["Title"] = "Subscriptions";
                     <td>@subscription.Category</td>
                     <td>@subscription.Amount</td>
                     <td>@subscription.Frequency</td>
-                    <td>@subscription.StartDate</td>
-                    <td>@subscription.EndDate</td>
+                    <td>@subscription.StartDate.ToString("MM/dd/yyyy")</td>
+                    <td>@subscription.EndDate.ToString("MM/dd/yyyy")</td>
                 </tr>
                 }
             </tbody>
