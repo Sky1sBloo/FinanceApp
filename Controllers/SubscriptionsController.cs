@@ -40,6 +40,6 @@ public class SubscriptionsController : Controller
             StartDate = subscriptionForm.StartDate,
             EndDate = subscriptionForm.EndDate
         };
-        return View();
+        return RedirectToAction("Index");
     }
 }

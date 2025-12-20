@@ -29,11 +29,11 @@
             <label for="end-date-input">End Date</label>
             <input id="end-date-input" class="form-control" type="date" asp-for="EndDate" />
             <div asp-validation-summary="All" class="text-danger"></span>
-        </div>
-        <div class="text-end">
-            <input class="mt-2 btn btn-primary" type="submit" value="Save" />
-            <input class="mt-2 btn btn-secondary" type="submit" value="Update" />
-        </div>
+            </div>
+            <div class="text-end">
+                <input class="mt-2 btn btn-primary" type="submit" value="Save" />
+                <a asp-action="index" class="mt-2 btn btn-secondary">Cancel</a>
+            </div>
     </form>
 </div>
 
