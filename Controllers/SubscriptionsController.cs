@@ -16,7 +16,6 @@ public class SubscriptionsController : Controller
     [HttpGet]
     public async Task<IActionResult> Index(string searchTerm = "")
     {
-        await dbContext.SaveChangesAsync();
         var subscriptions = dbContext.Subscriptions.AsQueryable();
         if (!string.IsNullOrWhiteSpace(searchTerm))
         {
@@ -36,6 +35,11 @@ public class SubscriptionsController : Controller
     [HttpPost]
     public async Task<IActionResult> Create(SubscriptionForm subscriptionForm)
     {
+        if (!ModelState.IsValid)
+        {
+            return View(subscriptionForm);
+        }
+
         var subscription = new Subscription
         {
             Name = subscriptionForm.Name,
@@ -51,9 +55,9 @@ public class SubscriptionsController : Controller
     }
 
     [HttpGet]
-    public IActionResult Edit(Guid id)
+    public async Task<IActionResult> Edit(Guid id)
     {
-        var subscription = dbContext.Subscriptions.Find(id);
+        var subscription = await dbContext.Subscriptions.FindAsync(id);
         if (subscription == null)
         {
             return NotFound();
@@ -77,6 +81,16 @@ public class SubscriptionsController : Controller
     [HttpPost]
     public async Task<IActionResult> Edit(Guid id, SubscriptionEditForm editForm)
     {
+        if (!ModelState.IsValid)
+        {
+            return View(editForm);
+        }
+
+        if (editForm == null || id != editForm.Id)
+        {
+            return BadRequest();
+        }
+
         var subscription = new Subscription
         {
             Id = id,

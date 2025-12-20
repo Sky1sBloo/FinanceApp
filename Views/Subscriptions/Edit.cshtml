@@ -11,29 +11,34 @@
         <div class="col d-flex flex-column">
             <input type="hidden" asp-for="Id" value="@Model.Id" />
             <label for="name-input">Name<span class="text-danger">*</span></label>
-            <input id="name-input" type="text" class="form-control" asp-for="SubscriptionForm.Name" value="@Model.SubscriptionForm.Name" />
+            <input id="name-input" type="text" class="form-control" asp-for="SubscriptionForm.Name"
+                value="@Model.SubscriptionForm.Name" />
             <label for="category-select">Category</label>
             <select id="category-select" class="form-control" asp-for="SubscriptionForm.Category">
                 <partial name="_ExpenseCategories" />
             </select>
             <label for="amount-input">Amount (in Php) <span class="text-danger">*</span></label>
-            <input asp-for="SubscriptionForm.Amount" id="amount-input" type="number" placeholder="0" class="form-control" value="@Model.SubscriptionForm.Amount" />
+            <input asp-for="SubscriptionForm.Amount" id="amount-input" type="number" placeholder="0"
+                class="form-control" value="@Model.SubscriptionForm.Amount" />
             <label for="frequency-select">Frequency</label>
-            <select id="frequency-select" class="form-control" asp-for="SubscriptionForm.Frequency" value="@Model.SubscriptionForm.Frequency">
+            <select id="frequency-select" class="form-control" asp-for="SubscriptionForm.Frequency">
                 @foreach (var category in Enum.GetValues(typeof(FrequencyType)))
                 {
                     <option value="@category">@category</option>
                 }
             </select>
             <label for="start-date-input">Start Date</label>
-            <input id="start-date-input" class="form-control" type="date" asp-for="SubscriptionForm.StartDate" value="@Model.SubscriptionForm.StartDate?.ToString("yyyy-MM-dd")" />
+            <input id="start-date-input" class="form-control" type="date" asp-for="SubscriptionForm.StartDate"
+                value="@Model.SubscriptionForm.StartDate?.ToString("yyyy-MM-dd")" />
             <label for="end-date-input">End Date</label>
-            <input id="end-date-input" class="form-control" type="date" asp-for="SubscriptionForm.EndDate" value="@Model.SubscriptionForm.EndDate?.ToString("yyyy-MM-dd")" />
+            <input id="end-date-input" class="form-control" type="date" asp-for="SubscriptionForm.EndDate"
+                value="@Model.SubscriptionForm.EndDate?.ToString("yyyy-MM-dd")" />
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="text-end">
                 <input class="mt-2 btn btn-primary" type="submit" value="Save" />
                 <a asp-action="index" class="mt-2 btn btn-secondary">Cancel</a>
             </div>
+        </div>
     </form>
 </div>
 

@@ -35,9 +35,9 @@
                     <td>@subscription.Category</td>
                     <td>@subscription.Amount</td>
                     <td>@subscription.Frequency</td>
-                    <td>@(subscription.StartDate.HasValue? subscription.StartDate.Value.ToString("MM/dd/yyyy") : "-")
+                    <td>@(subscription.StartDate.HasValue ? subscription.StartDate.Value.ToString("MM/dd/yyyy") : "-")
                     </td>
-                    <td>@(subscription.EndDate.HasValue? subscription.EndDate.Value.ToString("MM/dd/yyyy") : "-")</td>
+                    <td>@(subscription.EndDate.HasValue ? subscription.EndDate.Value.ToString("MM/dd/yyyy") : "-")</td>
                     <td class="d-flex flex-row gap-2">
                         <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@subscription.Id">Edit</a>
                         <form method="post" asp-action="Delete" asp-route-id="@subscription.Id"
