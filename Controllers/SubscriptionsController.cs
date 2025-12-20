@@ -86,4 +86,17 @@ public class SubscriptionsController : Controller
         await dbContext.SaveChangesAsync();
         return RedirectToAction("Index");
     }
+
+    [HttpPost]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        var subscription = dbContext.Subscriptions.Find(id);
+        if (subscription == null)
+        {
+            return NotFound();
+        }
+        dbContext.Subscriptions.Remove(subscription);
+        await dbContext.SaveChangesAsync();
+        return RedirectToAction("Index");
+    }
 }
