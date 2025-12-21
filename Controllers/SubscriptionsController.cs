@@ -109,7 +109,7 @@ public class SubscriptionsController : Controller
     [HttpPost]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var subscription = dbContext.Subscriptions.Find(id);
+        var subscription = await dbContext.Subscriptions.FindAsync(id);
         if (subscription == null)
         {
             return NotFound();
