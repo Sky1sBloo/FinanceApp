@@ -81,14 +81,14 @@ public class SubscriptionsController : Controller
     [HttpPost]
     public async Task<IActionResult> Edit(Guid id, SubscriptionEditForm editForm)
     {
-        if (!ModelState.IsValid)
-        {
-            return View(editForm);
-        }
-
         if (editForm == null || id != editForm.Id)
         {
             return BadRequest();
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return View(editForm);
         }
 
         var subscription = new Subscription

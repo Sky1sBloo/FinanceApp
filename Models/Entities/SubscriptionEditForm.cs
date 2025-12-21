@@ -9,4 +9,3 @@ namespace FinanceApp.Models.Entities
         public required SubscriptionForm SubscriptionForm {get; set; }
     }
 }
-
