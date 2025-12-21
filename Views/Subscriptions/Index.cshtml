@@ -1,80 +1,52 @@
 @{
-ViewData["Title"] = "Subscriptions";
+    ViewData["Title"] = "Subscriptions";
 }
 
 @using FinanceApp.Models.Enums
 @model FinanceApp.Models.Entities.SubscriptionIndexViewModel
 
 <div class="container-fluid border" style="height: 80vh">
-    <section class="border-bottom">
-        <h4 class="pt-2">Subscriptions</h4>
-        <form class="container pb-2" method="post">
-            <div class="row">
-                <div class="col d-flex flex-column">
-                    <label>Name</label>
-                    <input type="text" class="form-control" asp-for="Form.Name" />
-                    <label>Category</label>
-                    <select asp-for="Form.Category" class="form-control">
-                        <partial name="_ExpenseCategories" />
-                    </select>
-                    <label>Amount (in Php)</label>
-                    <input type="number" placeholder="0" class="form-control" asp-for="Form.Amount" />
-                </div>
-                <div class="col d-flex flex-column">
-                    <label>Frequency</label>
-                    <select class="form-control" asp-for="Form.Frequency">
-                        @foreach (var category in Enum.GetValues(typeof(FrequencyType)))
-                        {
-                        <option value="@category">@category</option>
-                        }
-                    </select>
-                    <label>Start Date</label>
-                    <input class="form-control" type="date" asp-for="Form.StartDate" />
-                    <label>End Date</label>
-                    <input class="form-control" type="date" asp-for="Form.EndDate" />
-                </div>
-            </div>
-            <div class="text-end">
-                <input class="mt-2 btn btn-primary" type="submit" value="submit" />
-            </div>
+    <section class="d-flex justify-content-between mt-4">
+        <h4>Subscriptions</h4>
+        <form method="get" class="d-flex flex-row align-items-center gap-2">
+            <a asp-action="Create" class="btn btn-primary">+</a>
+            <label for="search-subscription">Search</label>
+            <input type="text" id="search-subscription" name="searchTerm" class="form-control" value="@ViewData["searchTerm"]"/>
+            <input type="submit" value="Search" class="btn btn-secondary"/>
         </form>
     </section>
-    <section>
-        <form class="d-flex justify-content-between">
-            <h4>Subscriptions</h4>
-            <div>
-                <input type="button" value="+" />
-                <input type="button" value="-" />
-                <input type="button" value="edit" />
-                <label>Search</label>
-                <input type="text" />
-                <input type="submit" value="Search" />
-            </div>
-        </form>
-        <table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Amount</th>
-                    <th scope="col">Frequency</th>
-                    <th scope="col">Start Date</th>
-                    <th scope="col">End Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var subscription in Model.Subscriptions)
-                {
-                <tr>
+    <table class="table table-striped table-hover mt-4">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Category</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Frequency</th>
+                <th scope="col">Start Date</th>
+                <th scope="col">End Date</th>
+                <th scope="col" style="width: 150px"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var subscription in Model.Subscriptions)
+            {
+                <tr class="align-middle">
                     <td>@subscription.Name</td>
                     <td>@subscription.Category</td>
                     <td>@subscription.Amount</td>
                     <td>@subscription.Frequency</td>
-                    <td>@subscription.StartDate</td>
-                    <td>@subscription.EndDate</td>
+                    <td>@(subscription.StartDate.HasValue ? subscription.StartDate.Value.ToString("MM/dd/yyyy") : "-")
+                    </td>
+                    <td>@(subscription.EndDate.HasValue ? subscription.EndDate.Value.ToString("MM/dd/yyyy") : "-")</td>
+                    <td class="d-flex flex-row gap-2">
+                        <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@subscription.Id">Edit</a>
+                        <form method="post" asp-action="Delete" asp-route-id="@subscription.Id"
+                            onsubmit="return confirm('Are you sure you want to delete this subscription?');">
+                            <button type="submit" class="btn btn-danger">-</button>
+                        </form>
+                    </td>
                 </tr>
-                }
-            </tbody>
-        </table>
-    </section>
+            }
+        </tbody>
+    </table>
 </div>

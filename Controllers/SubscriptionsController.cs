@@ -14,44 +14,108 @@ public class SubscriptionsController : Controller
     }
 
     [HttpGet]
-    public IActionResult Index()
+    public async Task<IActionResult> Index(string searchTerm = "")
     {
-        var subscriptions = dbContext.Subscriptions.ToList();
+        var subscriptions = dbContext.Subscriptions.AsQueryable();
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            subscriptions = subscriptions.Where(s => s.Name.Contains(searchTerm));
+            ViewData["searchTerm"] = searchTerm;
+        }
+
         var viewModel = new SubscriptionIndexViewModel
         {
-            Form = new SubscriptionForm(),
-            Subscriptions = subscriptions
+            Subscriptions = subscriptions.ToList()
         };
-
         return View(viewModel);
     }
 
+    [HttpGet]
+    public IActionResult Create() => View();
     [HttpPost]
-    public async Task<IActionResult> Index(SubscriptionIndexViewModel subscriptionViewModel)
+    public async Task<IActionResult> Create(SubscriptionForm subscriptionForm)
     {
-        string subscriptionName = "Subscription";
-        if (subscriptionViewModel.Form.Name != null)
+        if (!ModelState.IsValid)
         {
-            subscriptionName = subscriptionViewModel.Form.Name;
+            return View(subscriptionForm);
         }
+
         var subscription = new Subscription
         {
-            Name = subscriptionName,
-            Category = subscriptionViewModel.Form.Category,
-            Amount = subscriptionViewModel.Form.Amount,
-            Frequency = subscriptionViewModel.Form.Frequency,
-            StartDate = subscriptionViewModel.Form.StartDate,
-            EndDate = subscriptionViewModel.Form.EndDate
+            Name = subscriptionForm.Name,
+            Category = subscriptionForm.Category,
+            Amount = subscriptionForm.Amount,
+            Frequency = subscriptionForm.Frequency,
+            StartDate = subscriptionForm.StartDate,
+            EndDate = subscriptionForm.EndDate
         };
-        await dbContext.Subscriptions.AddAsync(subscription);
+        dbContext.Subscriptions.Add(subscription);
         await dbContext.SaveChangesAsync();
-        var subscriptions = dbContext.Subscriptions.ToList();
+        return RedirectToAction("Index");
+    }
 
-        var viewModel = new SubscriptionIndexViewModel
+    [HttpGet]
+    public async Task<IActionResult> Edit(Guid id)
+    {
+        var subscription = await dbContext.Subscriptions.FindAsync(id);
+        if (subscription == null)
         {
-            Form = subscriptionViewModel.Form,
-            Subscriptions = subscriptions
+            return NotFound();
+        }
+        SubscriptionEditForm editForm = new SubscriptionEditForm
+        {
+            Id = id,
+            SubscriptionForm = new SubscriptionForm
+            {
+                Name = subscription.Name,
+                Category = subscription.Category,
+                Amount = subscription.Amount,
+                Frequency = subscription.Frequency,
+                StartDate = subscription.StartDate,
+                EndDate = subscription.EndDate
+            }
         };
-        return View(viewModel);
+        return View(editForm);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Edit(Guid id, SubscriptionEditForm editForm)
+    {
+        if (editForm == null || id != editForm.Id)
+        {
+            return BadRequest();
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return View(editForm);
+        }
+
+        var subscription = new Subscription
+        {
+            Id = id,
+            Name = editForm.SubscriptionForm.Name,
+            Category = editForm.SubscriptionForm.Category,
+            Amount = editForm.SubscriptionForm.Amount,
+            Frequency = editForm.SubscriptionForm.Frequency,
+            StartDate = editForm.SubscriptionForm.StartDate,
+            EndDate = editForm.SubscriptionForm.EndDate
+        };
+        dbContext.Subscriptions.Update(subscription);
+        await dbContext.SaveChangesAsync();
+        return RedirectToAction("Index");
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        var subscription = await dbContext.Subscriptions.FindAsync(id);
+        if (subscription == null)
+        {
+            return NotFound();
+        }
+        dbContext.Subscriptions.Remove(subscription);
+        await dbContext.SaveChangesAsync();
+        return RedirectToAction("Index");
     }
 }
