@@ -1,0 +1,36 @@
+@{
+    ViewData["Title"] = "Goals";
+}
+
+@using FinanceApp.Models.Enums
+@model FinanceApp.Models.Entities.GoalsForm
+
+<div class="container-fluid border" style="min-width: 400px; width: 60vh">
+    <h4 class="pt-2">Goals</h4>
+    <form class="container pb-2" method="post">
+        <div class="col d-flex flex-column">
+            <label for="name-input">Name<span class="text-danger">*</span></label>
+            <input id="name-input" type="text" class="form-control" asp-for="Name" />
+            <label for="amount-input">Amount (in Php) <span class="text-danger">*</span></label>
+            <input id="amount-input" type="number" placeholder="0" class="form-control" asp-for="TargetAmount" />
+            <label for="deadline-input">Deadline<span class="text-danger">*</span></label>
+            <input id="deadline-input" class="form-control" type="date" asp-for="Deadline" />
+            <label for="priority-select">Priority<span class="text-danger">*</span></label>
+            <select id="priority-select" class="form-control" asp-for="PriorityLevel">
+                @foreach (var priority in Enum.GetValues(typeof(Priority)))
+                {
+                    <option value="@priority">@priority</option>
+                }
+            </select>
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="text-end">
+                <input class="mt-2 btn btn-primary" type="submit" value="Save" />
+                <a asp-action="Index" class="mt-2 btn btn-secondary">Cancel</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
