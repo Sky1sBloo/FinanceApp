@@ -2,6 +2,8 @@
     ViewData["Title"] = "Home";
 }
 
+@model FinanceApp.Models.Entities.TransactionIndexViewModel
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-8">
@@ -32,7 +34,36 @@
             </section>
             <section class="row" style="height: 55vh;">
                 <article class="col-12 border">
-                    @await Html.PartialAsync("_ExpenseTable")
+                    <form method="get" class="d-flex justify-content-between mt-3">
+                        <h4>Transactions</h4>
+                        <div class="d-flex flex-row align-items-center gap-2">
+                            <a asp-action="CreateTransactions" class="btn btn-primary">+</a>
+                            <label for="search-transaction">Search</label>
+                            <input id="search-transaction" type="text" class="form-control" />
+                            <input type="submit" value="Search" class="btn btn-secondary" />
+                        </div>
+                    </form>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Date</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var transaction in Model.Transactions)
+                            {
+                                <tr>
+                                    <td>@transaction.Date</td>
+                                    <td>@transaction.Name</td>
+                                    <td>@transaction.Category</td>
+                                    <td>@transaction.Amount</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
                 </article>
             </section>
         </div>

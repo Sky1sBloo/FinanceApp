@@ -9,6 +9,7 @@ namespace FinanceApp.Data
         {
         }
 
+        public required DbSet<Transaction> Transactions { get; set; }
         public required DbSet<Subscription> Subscriptions { get; set; }
         public required DbSet<Goals> Goals { get; set; }
     }
