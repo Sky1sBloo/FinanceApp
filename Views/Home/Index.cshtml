@@ -16,7 +16,7 @@
                     </div>
                     <div class="d-flex flex-row justify-content-between">
                         <p><strong>Total Expenses:</strong></p>
-                        <p>P @Model.Transactions.Sum(t => t.Amount.Amount)</p>
+                        <p>@FinanceApp.Data.Types.Currency.Format(Model.Transactions.Sum(t => t.Amount.Amount))</p>
                     </div>
                     <div class="d-flex flex-row justify-content-between">
                         <p><strong>Net Balance:</strong></p>
