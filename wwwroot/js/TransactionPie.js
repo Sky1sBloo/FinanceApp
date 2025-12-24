@@ -24,7 +24,9 @@ async function loadTransactionPie() {
             if (!aggregated[categoryName]) {
                 aggregated[categoryName] = 0;
             }
-            aggregated[categoryName] += t.amount;
+            // Access nested amount property from Currency object
+            const amount = t.amount?.amount || t.amount || 0;
+            aggregated[categoryName] += amount;
         });
         
         const categories = Object.keys(aggregated);
