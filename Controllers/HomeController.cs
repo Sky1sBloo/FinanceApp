@@ -29,7 +29,7 @@ public class HomeController : Controller
     }
 
     [HttpGet]
-    public IActionResult CreateTransactions() => View();
+    public IActionResult CreateTransaction() => View();
 
     [HttpPost]
     public async Task<IActionResult> CreateTransaction(TransactionForm form)
@@ -113,6 +113,13 @@ public class HomeController : Controller
         dbContext.Transactions.Remove(transaction);
         await dbContext.SaveChangesAsync();
         return RedirectToAction("Index");
+    }
+
+    [HttpGet("api/transactions")]
+    public IActionResult GetTransactions()
+    {
+        var transactions = dbContext.Transactions.ToList();
+        return Json(transactions);
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
