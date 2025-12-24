@@ -47,6 +47,14 @@
                 </article>
             </section>
             <section class="row">
+                <h4>Budget</h4>
+                <form class="d-flex flex-row">
+                    <div>
+                        <input type="button" class="btn btn-primary" value="+" />
+                        <input type="text" class="form-control"/>
+                        <input type="submit" value="Search" class="btn btn-secondary"/>
+                    </div>
+                </form>
                 <article>
                     @await Html.PartialAsync("_GoalsTable")
                 </article>
