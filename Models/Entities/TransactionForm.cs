@@ -12,7 +12,7 @@ namespace FinanceApp.Models.Entities
         public TransactionCategory Category { get; set; }
 
         [Required(ErrorMessage = "Amount is a required field")]
-        public int Amount { get; set; }
+        public decimal Amount { get; set; }
     }
 }
 

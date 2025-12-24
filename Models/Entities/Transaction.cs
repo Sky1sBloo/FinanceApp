@@ -1,3 +1,4 @@
+using FinanceApp.Data.Types;
 using FinanceApp.Models.Enums;
 
 namespace FinanceApp.Models.Entities
@@ -8,6 +9,6 @@ namespace FinanceApp.Models.Entities
         public DateTime Date { get; set; }
         public required string Name { get; set; }
         public TransactionCategory Category { get; set; }
-        public int Amount { get; set; }
+        public required Currency Amount { get; set; }
     }
 }

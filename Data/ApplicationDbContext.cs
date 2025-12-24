@@ -9,6 +9,18 @@ namespace FinanceApp.Data
         {
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Transaction>()
+                .OwnsOne(t => t.Amount, navigationBuilder =>
+                {
+                    navigationBuilder.Property(t => t.Amount)
+                        .HasColumnName("Amount")
+                        .HasColumnType("decimal(18, 2)");
+                });
+            base.OnModelCreating(modelBuilder);
+        }
+
         public required DbSet<Transaction> Transactions { get; set; }
         public required DbSet<Subscription> Subscriptions { get; set; }
         public required DbSet<Goals> Goals { get; set; }

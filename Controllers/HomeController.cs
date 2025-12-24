@@ -4,6 +4,8 @@ using FinanceApp.Models;
 
 using FinanceApp.Models.Entities;
 using FinanceApp.Data;
+using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
+using FinanceApp.Data.Types;
 
 namespace FinanceApp.Controllers;
 
@@ -42,7 +44,7 @@ public class HomeController : Controller
         var transaction = new Transaction
         {
             Name = form.Name,
-            Amount = form.Amount,
+            Amount = new Currency(form.Amount),
             Date = form.Date,
             Category = form.Category
         };
@@ -66,7 +68,7 @@ public class HomeController : Controller
             TransactionForm = new TransactionForm
             {
                 Name = transaction.Name,
-                Amount = transaction.Amount,
+                Amount = transaction.Amount.Amount,
                 Date = transaction.Date,
                 Category = transaction.Category
             }
@@ -92,7 +94,7 @@ public class HomeController : Controller
         {
             Id = id,
             Name = editForm.TransactionForm.Name,
-            Amount = editForm.TransactionForm.Amount,
+            Amount = new Currency(editForm.TransactionForm.Amount),
             Date = editForm.TransactionForm.Date,
             Category = editForm.TransactionForm.Category
         };

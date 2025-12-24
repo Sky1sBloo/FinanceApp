@@ -12,7 +12,7 @@
             <label for="name-input">Name<span class="text-danger">*</span></label>
             <input id="name-input" type="text" class="form-control" asp-for="Name" />
             <label for="amount-input">Amount (in Php) <span class="text-danger">*</span></label>
-            <input id="amount-input" type="number" placeholder="0" class="form-control" asp-for="Amount" />
+            <input id="amount-input" type="number" step="0.05" placeholder="0" class="form-control" asp-for="Amount" />
             <label for="date-input">Date<span class="text-danger">*</span></label>
             <input id="date-input" class="form-control" type="date" asp-for="Date" />
             <label for="category-select">Category<span class="text-danger">*</span></label>
