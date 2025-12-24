@@ -47,13 +47,9 @@
                 </article>
             </section>
             <section class="row">
-                <h4>Budget</h4>
-                <form class="d-flex flex-row">
-                    <div>
-                        <input type="button" class="btn btn-primary" value="+" />
-                        <input type="text" class="form-control"/>
-                        <input type="submit" value="Search" class="btn btn-secondary"/>
-                    </div>
+                <form class="d-flex justify-content-between">
+                    <h4>Budget</h4>
+                    <input type="button" class="btn btn-primary" value="+" />
                 </form>
                 <article>
                     @await Html.PartialAsync("_GoalsTable")
