@@ -51,6 +51,19 @@ public class HomeController : Controller
         return RedirectToAction("Index");
     }
 
+    public async Task<IActionResult> DeleteTransaction(Guid id)
+    {
+        var transaction = await dbContext.Transactions.FindAsync(id);
+        if (transaction == null)
+        {
+            return NotFound();
+        }
+
+        dbContext.Transactions.Remove(transaction);
+        await dbContext.SaveChangesAsync();
+        return RedirectToAction("Index");
+    }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
