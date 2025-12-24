@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using FinanceApp.Models.Entities;
 using FinanceApp.Data;
+using FinanceApp.Data.Types;
 
 namespace FinanceApp.Controllers;
 
@@ -44,7 +45,7 @@ public class SubscriptionsController : Controller
         {
             Name = subscriptionForm.Name,
             Category = subscriptionForm.Category,
-            Amount = subscriptionForm.Amount,
+            Amount = new Currency(subscriptionForm.Amount),
             Frequency = subscriptionForm.Frequency,
             StartDate = subscriptionForm.StartDate,
             EndDate = subscriptionForm.EndDate
@@ -69,7 +70,7 @@ public class SubscriptionsController : Controller
             {
                 Name = subscription.Name,
                 Category = subscription.Category,
-                Amount = subscription.Amount,
+                Amount = subscription.Amount.Amount,
                 Frequency = subscription.Frequency,
                 StartDate = subscription.StartDate,
                 EndDate = subscription.EndDate
@@ -96,7 +97,7 @@ public class SubscriptionsController : Controller
             Id = id,
             Name = editForm.SubscriptionForm.Name,
             Category = editForm.SubscriptionForm.Category,
-            Amount = editForm.SubscriptionForm.Amount,
+            Amount = new Currency(editForm.SubscriptionForm.Amount),
             Frequency = editForm.SubscriptionForm.Frequency,
             StartDate = editForm.SubscriptionForm.StartDate,
             EndDate = editForm.SubscriptionForm.EndDate

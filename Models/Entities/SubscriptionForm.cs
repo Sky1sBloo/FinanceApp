@@ -10,7 +10,7 @@ namespace FinanceApp.Models.Entities
         public TransactionCategory Category { get; set; }
 
         [Required(ErrorMessage = "Amount is a required field")]
-        public int Amount { get; set; }
+        public decimal Amount { get; set; }
         public FrequencyType Frequency { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }

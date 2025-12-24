@@ -18,6 +18,20 @@ namespace FinanceApp.Data
                         .HasColumnName("Amount")
                         .HasColumnType("decimal(18, 2)");
                 });
+            modelBuilder.Entity<Goals>()
+                .OwnsOne(t => t.TargetAmount, navigationBuilder =>
+                {
+                    navigationBuilder.Property(t => t.Amount)
+                        .HasColumnName("Amount")
+                        .HasColumnType("decimal(18, 2)");
+                });
+            modelBuilder.Entity<Subscription>()
+                .OwnsOne(t => t.Amount, navigationBuilder =>
+                {
+                    navigationBuilder.Property(t => t.Amount)
+                        .HasColumnName("Amount")
+                        .HasColumnType("decimal(18, 2)");
+                });
             base.OnModelCreating(modelBuilder);
         }
 
