@@ -37,7 +37,7 @@
                     <form method="get" class="d-flex justify-content-between mt-3">
                         <h4>Transactions</h4>
                         <div class="d-flex flex-row align-items-center gap-2">
-                            <a asp-action="CreateTransactions" class="btn btn-primary">+</a>
+                            <a asp-action="CreateTransaction" class="btn btn-primary">+</a>
                             <label for="search-transaction">Search</label>
                             <input id="search-transaction" type="text" class="form-control" />
                             <input type="submit" value="Search" class="btn btn-secondary" />
@@ -62,7 +62,7 @@
                                     <td>@transaction.Category</td>
                                     <td>@transaction.Amount</td>
                                     <td class="d-flex flex-row gap-2">
-                                        <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@transaction.Id">Edit</a>
+                                        <a class="btn btn-secondary" asp-action="EditTransaction" asp-route-id="@transaction.Id">Edit</a>
                                         <form method="post" asp-action="DeleteTransaction" asp-route-id="@transaction.Id"
                                             onsubmit="return confirm('Are you sure you want to delete this transaction?');">
                                             <button type="submit" class="btn btn-danger">-</button>

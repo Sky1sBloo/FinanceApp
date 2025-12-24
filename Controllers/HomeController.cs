@@ -32,7 +32,7 @@ public class HomeController : Controller
     public IActionResult CreateTransactions() => View();
 
     [HttpPost]
-    public async Task<IActionResult> CreateTransactions(TransactionForm form)
+    public async Task<IActionResult> CreateTransaction(TransactionForm form)
     {
         if (!ModelState.IsValid)
         {
@@ -51,6 +51,57 @@ public class HomeController : Controller
         return RedirectToAction("Index");
     }
 
+    [HttpGet]
+    public async Task<IActionResult> EditTransaction(Guid id)
+    {
+        var transaction = await dbContext.Transactions.FindAsync(id);
+        if (transaction == null)
+        {
+            return NotFound();
+        }
+
+        var editForm = new TransactionEditForm
+        {
+            Id = transaction.Id,
+            TransactionForm = new TransactionForm
+            {
+                Name = transaction.Name,
+                Amount = transaction.Amount,
+                Date = transaction.Date,
+                Category = transaction.Category
+            }
+        };
+
+        return View(editForm);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> EditTransaction(Guid id, TransactionEditForm editForm)
+    {
+        if (editForm == null || id != editForm.Id)
+        {
+            return BadRequest();
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return View(editForm);
+        }
+
+        var transaction = new Transaction
+        {
+            Id = id,
+            Name = editForm.TransactionForm.Name,
+            Amount = editForm.TransactionForm.Amount,
+            Date = editForm.TransactionForm.Date,
+            Category = editForm.TransactionForm.Category
+        };
+        dbContext.Transactions.Update(transaction);
+        await dbContext.SaveChangesAsync();
+        return RedirectToAction("Index");
+    }
+
+    [HttpPost]
     public async Task<IActionResult> DeleteTransaction(Guid id)
     {
         var transaction = await dbContext.Transactions.FindAsync(id);
