@@ -6,7 +6,7 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-8">
+        <div class="col-9">
             <section class="row" style="height: 25vh;">
                 <article class="col-3 border">
                     <h3>Info</h3>
@@ -16,7 +16,7 @@
                     </div>
                     <div class="d-flex flex-row justify-content-between">
                         <p><strong>Total Expenses:</strong></p>
-                        <p>0</p>
+                        <p>P @Model.Transactions.Sum(t => t.Amount)</p>
                     </div>
                     <div class="d-flex flex-row justify-content-between">
                         <p><strong>Net Balance:</strong></p>
@@ -75,7 +75,7 @@
                 </article>
             </section>
         </div>
-        <section class="col-4 border d-flex flex-column">
+        <section class="col-3 border d-flex flex-column">
             <section class="row" style="height:30vh;">
                 <article class="pl-3 pr-3">
                     <div class="pt-3 border-bottom d-flex flex-row justify-content-between">
