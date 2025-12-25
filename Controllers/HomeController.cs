@@ -177,6 +177,19 @@ public class HomeController : Controller
         return RedirectToAction("Index");
     }
 
+    public async Task<IActionResult> DeleteBudget(DateTime date)
+    {
+        var budget = await dbContext.Budgets.FindAsync(date);
+        if (budget == null)
+        {
+            return NotFound();
+        }
+
+        dbContext.Budgets.Remove(budget);
+        await dbContext.SaveChangesAsync();
+        return RedirectToAction("Index");
+    }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {

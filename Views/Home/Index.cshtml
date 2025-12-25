@@ -122,14 +122,18 @@
                             <tr>
                                 <th scope="col">Date</th>
                                 <th scope="col">Amount</th>
+                                <th scope="col"></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var budget in Model.Budgets)
                             {
-                                <tr>
+                                <tr class="align-middle">
                                     <td>@budget.Date.ToString("MM/dd/yyyy")</td>
                                     <td>@budget.Amount</td>
+                                    <td class="d-flex flex-row gap-2 justify-content-end">
+                                        <a class="btn btn-secondary px-2 py-1" asp-action="DeleteBudget"
+                                            asp-route-date="@budget.Date">-</a>
                                 </tr>
                             }
                         </tbody>
