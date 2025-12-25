@@ -26,7 +26,8 @@
                     </div>
                     <div class="d-flex flex-row justify-content-between">
                         <p><strong>Avg Transaction:</strong></p>
-                        <p>@Currency.Format(Model.Transactions.Any() ? Model.Transactions.Average(t => t.Amount.Amount) : 0)</p>
+                        <p>@Currency.Format(Model.Transactions.Any() ? Model.Transactions.Average(t => t.Amount.Amount)
+                                                        : 0)</p>
                     </div>
                 </article>
                 <article class="col-8 border d-flex flex-row text-center">
@@ -72,8 +73,8 @@
                                 {
                                     <tr class="align-middle">
                                         <td>
-                                            <input type="checkbox" class="transaction-checkbox form-check-input" name="transactionSelected"
-                                                value="@transaction.Id" />
+                                            <input type="checkbox" class="transaction-checkbox form-check-input"
+                                                name="transactionSelected" value="@transaction.Id" />
                                         </td>
                                         <td>@transaction.Date</td>
                                         <td>@transaction.Name</td>
@@ -95,20 +96,34 @@
             <section class="row" style="height:30vh;">
                 <article class="pl-3 pr-3">
                     <div class="pt-3 border-bottom d-flex flex-row justify-content-between">
-                        <h5>Savings</h5>
-                        <p>Php 0.00</p>
-                    </div>
-                    <div class="pt-3 border-bottom d-flex flex-row justify-content-between">
                         <h5>Daily Budget</h5>
-                        <p>Php 0.00</p>
+                        @{
+                            var todayBudget = Model.Budgets.FirstOrDefault(b => b.Date.Date == DateTime.Today);
+                            var dailyAmount = todayBudget != null ? todayBudget.Amount.Amount : 0;
+                        }
+                        <p>
+                            @Currency.Format(dailyAmount)
+                        </p>
                     </div>
                     <div class="pt-3 border-bottom d-flex flex-row justify-content-between">
                         <h5>Monthly Budget</h5>
-                        <p>Php 0.00</p>
+                        @{
+                            var firstDayOfMonth = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+                            var monthlyBudget = Model.Budgets
+                                .Where(b => b.Date.Year == firstDayOfMonth.Year && b.Date.Month == firstDayOfMonth.Month)
+                                .Sum(b => b.Amount.Amount);
+                        }
+                        <p>@Currency.Format(monthlyBudget)</p>
                     </div>
                     <div class="pt-3 border-bottom d-flex flex-row justify-content-between">
                         <h5>Yearly Budget</h5>
-                        <p>Php 0.00</p>
+                        @{
+                            var firstDayOfYear = new DateTime(DateTime.Today.Year, 1, 1);
+                            var yearlyBudget = Model.Budgets
+                                .Where(b => b.Date.Year == firstDayOfYear.Year)
+                                .Sum(b => b.Amount.Amount);
+                        }
+                        <p>@Currency.Format(yearlyBudget)</p>
                     </div>
 
                 </article>

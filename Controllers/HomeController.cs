@@ -24,7 +24,8 @@ public class HomeController : Controller
     public IActionResult Index()
     {
         var transactions = dbContext.Transactions.ToList();
-        var budgets = dbContext.Budgets.ToList();
+        // edit: only get from today onwards
+        var budgets = dbContext.Budgets.ToList().Where(b => b.Date >= DateTime.Today).ToList();
         var viewModel = new TransactionIndexViewModel
         {
             Transactions = transactions,
