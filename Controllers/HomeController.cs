@@ -21,14 +21,20 @@ public class HomeController : Controller
         this.dbContext = dbContext;
     }
 
-    public IActionResult Index()
+    public IActionResult Index(string searchTerm = "")
     {
-        var transactions = dbContext.Transactions.ToList();
+        var transactions = dbContext.Transactions.AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            transactions = transactions.Where(s => s.Name.Contains(searchTerm));
+            ViewData["searchTerm"] = searchTerm;
+        }
         // edit: only get from today onwards
         var budgets = dbContext.Budgets.ToList().Where(b => b.Date >= DateTime.Today).ToList();
         var viewModel = new TransactionIndexViewModel
         {
-            Transactions = transactions,
+            Transactions = transactions.ToList(),
             Budgets = budgets
         };
         return View(viewModel);
