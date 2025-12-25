@@ -2,13 +2,15 @@
     ViewData["Title"] = "Home";
 }
 
+@using FinanceApp.Data.Types
+
 @model FinanceApp.Models.Entities.TransactionIndexViewModel
 
 <div class="container-fluid">
     <div class="row">
         <div class="col-9">
             <section class="row" style="height: 25vh;">
-                <article class="col-3 border">
+                <article class="col-4 border">
                     <h3>Info</h3>
                     <div class="d-flex flex-row justify-content-between">
                         <p><strong># of Transactions:</strong></p>
@@ -16,7 +18,7 @@
                     </div>
                     <div class="d-flex flex-row justify-content-between">
                         <p><strong>Total Expenses:</strong></p>
-                        <p>@FinanceApp.Data.Types.Currency.Format(Model.Transactions.Sum(t => t.Amount.Amount))</p>
+                        <p>@Currency.Format(Model.Transactions.Sum(t => t.Amount.Amount))</p>
                     </div>
                     <div class="d-flex flex-row justify-content-between">
                         <p><strong>Net Balance:</strong></p>
@@ -24,10 +26,10 @@
                     </div>
                     <div class="d-flex flex-row justify-content-between">
                         <p><strong>Avg Transaction:</strong></p>
-                        <p>0</p>
+                        <p>@Currency.Format(Model.Transactions.Any() ? Model.Transactions.Average(t => t.Amount.Amount) : 0)</p>
                     </div>
                 </article>
-                <article class="col-9 border d-flex flex-row text-center">
+                <article class="col-8 border d-flex flex-row text-center">
                     <canvas width="280" height="200" id="spendingPieChart"></canvas>
                     <canvas id="spendingLineChart" width="280" height="200"></canvas>
                 </article>

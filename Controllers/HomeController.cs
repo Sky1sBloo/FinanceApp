@@ -140,9 +140,15 @@ public class HomeController : Controller
     }
 
     [HttpGet("api/transactions")]
-    public IActionResult GetTransactions()
+    public IActionResult GetTransactions(int? year)
     {
-        var transactions = dbContext.Transactions.ToList();
+        var query = dbContext.Transactions.AsQueryable();
+        if (year.HasValue)
+        {
+            query = query.Where(t => t.Date.Year == year.Value);
+        }
+
+        var transactions = query.ToList();
         return Json(transactions);
     }
 
