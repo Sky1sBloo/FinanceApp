@@ -16,7 +16,7 @@ namespace FinanceApp.Data.Types
             {
                 return "Php " + (Amount / 1000000).ToString("0.##") + "M";
             }
-            return "Php " + Amount.ToString();
+            return "Php " + Amount.ToString("0.##");
         }
 
         public static string Format(decimal amount)
@@ -28,7 +28,7 @@ namespace FinanceApp.Data.Types
             {
                 return "Php " + (amount / 1000000).ToString("0.##") + "M";
             }
-            return "Php " + amount.ToString();
+            return "Php " + amount.ToString("0.##");
         }
     }
 }
