@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using FinanceApp.Models;
 
 using FinanceApp.Models.Entities;
@@ -155,14 +156,24 @@ public class HomeController : Controller
         {
             return View(form);
         }
-
-        var budget = new Budget
+        var existing = await dbContext.Budgets.FindAsync(form.Date);
+        if (existing == null)
         {
-            Date = form.Date,
-            Amount = new Currency(form.Amount)
-        };
-        dbContext.Add(budget);
+            var budget = new Budget
+            {
+                Date = form.Date,
+                Amount = new Currency(form.Amount)
+            };
+            dbContext.Add(budget);
+        }
+        else
+        {
+            existing.Amount = new Currency(form.Amount);
+            dbContext.Budgets.Update(existing);
+        }
+
         await dbContext.SaveChangesAsync();
+
         return RedirectToAction("Index");
     }
 
