@@ -7,7 +7,7 @@ namespace FinanceApp.Models.Entities
     {
         [Required(ErrorMessage = "Name is a required field")]
         public required string Name { get; set; }
-        public int TargetAmount { get; set; }
+        public decimal TargetAmount { get; set; }
         [Required(ErrorMessage = "Deadline is a required field")]
         public DateTime Deadline { get; set; }
         [Required(ErrorMessage = "Priority is a required field")]

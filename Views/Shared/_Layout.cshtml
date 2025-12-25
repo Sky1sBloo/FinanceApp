@@ -14,16 +14,16 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-lg navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <a class="navbar-brand">Finance app</a>
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Finance app</a>
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" asp-controller="Home"> Home </a>
+                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index"> Home </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" asp-controller="Subscriptions"> Subscription </a>
+                    <a class="nav-link" asp-area="" asp-controller="Subscriptions" asp-action="Index"> Subscription </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" asp-controller="Goals"> Goals</a>
+                    <a class="nav-link" asp-area="" asp-controller="Goals" asp-action="Index"> Goals</a>
                 </li>
             </ul>
         </nav>

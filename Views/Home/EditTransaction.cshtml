@@ -1,0 +1,38 @@
+@{
+    ViewData["Title"] = "Create Transactions";
+}
+
+@using FinanceApp.Models.Enums
+@model FinanceApp.Models.Entities.TransactionEditForm
+
+<div class="container-fluid border" style="min-width: 400px; width: 60vh">
+    <h4 class="pt-2">Transactions</h4>
+    <form method="post" class="container pb-2">
+        <div class="col d-flex flex-column">
+            <input type="hidden" asp-for="Id" value="@Model.Id" />
+            <label for="name-input">Name<span class="text-danger">*</span></label>
+            <input id="name-input" type="text" class="form-control" asp-for="TransactionForm.Name" />
+            <label for="amount-input">Amount (in Php) <span class="text-danger">*</span></label>
+            <input id="amount-input" type="number" placeholder="0" class="form-control"
+                asp-for="TransactionForm.Amount" />
+            <label for="date-input">Date<span class="text-danger">*</span></label>
+            <input id="date-input" class="form-control" type="date" asp-for="TransactionForm.Date" />
+            <label for="category-select">Category<span class="text-danger">*</span></label>
+            <select id="category-select" class="form-control" asp-for="TransactionForm.Category">
+                @foreach (var category in Enum.GetValues(typeof(TransactionCategory)))
+                {
+                    <option value="@category">@category</option>
+                }
+            </select>
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="text-end">
+                <input class="mt-2 btn btn-primary" type="submit" value="Save" />
+                <a asp-action="Index" class="mt-2 btn btn-secondary">Cancel</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

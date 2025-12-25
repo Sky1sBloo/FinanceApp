@@ -2,16 +2,29 @@
     ViewData["Title"] = "Home";
 }
 
+@using FinanceApp.Data.Types
+
+@model FinanceApp.Models.Entities.TransactionIndexViewModel
+
 <div class="container-fluid">
     <div class="row">
-        <div class="col-8">
+        <div class="col-9">
             <section class="row" style="height: 25vh;">
                 <article class="col-4 border">
                     <h3>Info</h3>
-                    <p><strong># of Transactions:</strong> 0</p>
-                    <p><strong>Total Expenses:</strong> 0</p>
-                    <p><strong>Net Balance:</strong> 0</p>
-                    <p><strong>Avg Transaction Amount::</strong> 0</p>
+                    <div class="d-flex flex-row justify-content-between">
+                        <p><strong># of Transactions:</strong></p>
+                        <p>@Model.Transactions.Count()</p>
+                    </div>
+                    <div class="d-flex flex-row justify-content-between">
+                        <p><strong>Total Expenses:</strong></p>
+                        <p>@Currency.Format(Model.Transactions.Sum(t => t.Amount.Amount))</p>
+                    </div>
+                    <div class="d-flex flex-row justify-content-between">
+                        <p><strong>Avg Transaction:</strong></p>
+                        <p>@Currency.Format(Model.Transactions.Any() ? Model.Transactions.Average(t => t.Amount.Amount)
+                                                        : 0)</p>
+                    </div>
                 </article>
                 <article class="col-8 border d-flex flex-row text-center">
                     <canvas width="280" height="200" id="spendingPieChart"></canvas>
@@ -20,35 +33,128 @@
             </section>
             <section class="row" style="height: 55vh;">
                 <article class="col-12 border">
-                    @await Html.PartialAsync("_ExpenseTable")
+                    <form method="get" class="d-flex justify-content-between mt-3">
+                        <h4>Transactions</h4>
+                        <div class="d-flex flex-row align-items-center gap-2">
+                            <input id="search-transaction" name="searchTerm" type="text" class="form-control" />
+                            <input type="submit" value="Search" class="btn btn-secondary" />
+                        </div>
+                    </form>
+                    <form method="post" asp-action="BulkDeleteTransactions">
+                        @Html.AntiForgeryToken()
+                        <div class="d-flex justify-content-between mb-2 mt-2">
+                            <div class="d-flex align-items-center gap-2">
+                                <input type="checkbox" id="select-all" class="form-check-input" />
+                                <label for="select-all" class="mb-0">Select All</label>
+                            </div>
+                            <div class="d-flex flex-row gap-2">
+                                <a asp-action="CreateTransaction" class="btn btn-primary">+</a>
+                                <button type="submit" class="btn btn-danger"
+                                    onclick="return confirm('Delete all selected transactions?');">Delete</button>
+                            </div>
+                        </div>
+                        <div class="table-responsive" style="max-height: 40vh; overflow-y: auto;">
+                            <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Category</th>
+                                    <th scope="col">Amount</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var transaction in Model.Transactions)
+                                {
+                                    <tr class="align-middle">
+                                        <td>
+                                            <input type="checkbox" class="transaction-checkbox form-check-input"
+                                                name="transactionSelected" value="@transaction.Id" />
+                                        </td>
+                                        <td>@transaction.Date.ToString("MM/dd/yyyy")</td>
+                                        <td>@transaction.Name</td>
+                                        <td>@transaction.Category</td>
+                                        <td>@transaction.Amount</td>
+                                        <td class="d-flex flex-row gap-2 justify-content-end">
+                                            <a class="btn btn-secondary px-2 py-1" asp-action="EditTransaction"
+                                                asp-route-id="@transaction.Id">Edit</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                            </table>
+                        </div>
+                    </form>
                 </article>
             </section>
         </div>
-        <section class="col-4 border d-flex flex-column">
+        <section class="col-3 border d-flex flex-column">
             <section class="row" style="height:30vh;">
                 <article class="pl-3 pr-3">
                     <div class="pt-3 border-bottom d-flex flex-row justify-content-between">
-                        <h5>Savings</h5>
-                        <p>Php 0.00</p>
-                    </div>
-                    <div class="pt-3 border-bottom d-flex flex-row justify-content-between">
                         <h5>Daily Budget</h5>
-                        <p>Php 0.00</p>
+                        @{
+                            var todayBudget = Model.Budgets.FirstOrDefault(b => b.Date.Date == DateTime.Today);
+                            var dailyAmount = todayBudget != null ? todayBudget.Amount.Amount : 0;
+                        }
+                        <p>
+                            @Currency.Format(dailyAmount)
+                        </p>
                     </div>
                     <div class="pt-3 border-bottom d-flex flex-row justify-content-between">
                         <h5>Monthly Budget</h5>
-                        <p>Php 0.00</p>
+                        @{
+                            var firstDayOfMonth = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+                            var monthlyBudget = Model.Budgets
+                                .Where(b => b.Date.Year == firstDayOfMonth.Year && b.Date.Month == firstDayOfMonth.Month)
+                                .Sum(b => b.Amount.Amount);
+                        }
+                        <p>@Currency.Format(monthlyBudget)</p>
                     </div>
                     <div class="pt-3 border-bottom d-flex flex-row justify-content-between">
                         <h5>Yearly Budget</h5>
-                        <p>Php 0.00</p>
+                        @{
+                            var firstDayOfYear = new DateTime(DateTime.Today.Year, 1, 1);
+                            var yearlyBudget = Model.Budgets
+                                .Where(b => b.Date.Year == firstDayOfYear.Year)
+                                .Sum(b => b.Amount.Amount);
+                        }
+                        <p>@Currency.Format(yearlyBudget)</p>
                     </div>
 
                 </article>
             </section>
             <section class="row">
+                <form class="d-flex justify-content-between">
+                    <h4>Budget</h4>
+                    <a class="btn btn-primary" asp-action="CreateBudget">+</a>
+                </form>
                 <article>
-                    @await Html.PartialAsync("_GoalsTable")
+                    <div class="table-responsive" style="max-height: 40vh; overflow-y: auto;">
+                        <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Date</th>
+                                <th scope="col">Amount</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var budget in Model.Budgets)
+                            {
+                                <tr class="align-middle">
+                                    <td>@budget.Date.ToString("MM/dd/yyyy")</td>
+                                    <td>@budget.Amount</td>
+                                    <td class="d-flex flex-row gap-2 justify-content-end">
+                                        <a class="btn btn-secondary px-2 py-1" asp-action="DeleteBudget"
+                                            asp-route-date="@budget.Date">-</a>
+                                </tr>
+                            }
+                        </tbody>
+                        </table>
+                    </div>
                 </article>
             </section>
         </section>
@@ -59,4 +165,14 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="~/js/TransactionPie.js"></script>
     <script src="~/js/TransactionLine.js"></script>
+    <script>
+        (function () {
+            const selectAll = document.getElementById('select-all');
+            if (!selectAll) return;
+            selectAll.addEventListener('change', function () {
+                const boxes = document.querySelectorAll('.transaction-checkbox');
+                boxes.forEach(b => { b.checked = selectAll.checked; });
+            });
+        })();
+    </script>
 }

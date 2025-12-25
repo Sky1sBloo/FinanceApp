@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using FinanceApp.Models.Entities;
 using FinanceApp.Data;
+using FinanceApp.Data.Types;
 
 public class GoalsController : Controller
 {
@@ -41,7 +42,7 @@ public class GoalsController : Controller
         var goals = new Goals
         {
             Name = goalsForm.Name,
-            TargetAmount = goalsForm.TargetAmount,
+            TargetAmount = new Currency(goalsForm.TargetAmount),
             Deadline = goalsForm.Deadline,
             PriorityLevel = goalsForm.PriorityLevel
         };
@@ -64,7 +65,7 @@ public class GoalsController : Controller
             GoalsForm = new GoalsForm
             {
                 Name = goals.Name,
-                TargetAmount = goals.TargetAmount,
+                TargetAmount = goals.TargetAmount.Amount,
                 Deadline = goals.Deadline,
                 PriorityLevel = goals.PriorityLevel
             }
@@ -89,7 +90,7 @@ public class GoalsController : Controller
         {
             Id = id,
             Name = editForm.GoalsForm.Name,
-            TargetAmount = editForm.GoalsForm.TargetAmount,
+            TargetAmount = new Currency(editForm.GoalsForm.TargetAmount),
             Deadline = editForm.GoalsForm.Deadline,
             PriorityLevel = editForm.GoalsForm.PriorityLevel
         };

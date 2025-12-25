@@ -1,3 +1,4 @@
+using FinanceApp.Data.Types;
 using FinanceApp.Models.Enums;
 
 namespace FinanceApp.Models.Entities
@@ -6,7 +7,7 @@ namespace FinanceApp.Models.Entities
     {
         public Guid Id { get; set; }
         public required string Name { get; set; }
-        public int TargetAmount { get; set; }
+        public required Currency TargetAmount { get; set; }
         public DateTime Deadline { get; set; }
         public Priority PriorityLevel { get; set; }
     }

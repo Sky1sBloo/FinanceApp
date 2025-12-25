@@ -4,6 +4,7 @@ using FinanceApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinanceApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251224121655_UsedCurrencyOnSubscriptionsAndGoals")]
+    partial class UsedCurrencyOnSubscriptionsAndGoals
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,16 +24,6 @@ namespace FinanceApp.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("FinanceApp.Models.Entities.Budget", b =>
-                {
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("date");
-
-                    b.HasKey("Date");
-
-                    b.ToTable("Budgets");
-                });
 
             modelBuilder.Entity("FinanceApp.Models.Entities.Goals", b =>
                 {
@@ -99,29 +92,6 @@ namespace FinanceApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Transactions");
-                });
-
-            modelBuilder.Entity("FinanceApp.Models.Entities.Budget", b =>
-                {
-                    b.OwnsOne("FinanceApp.Data.Types.Currency", "Amount", b1 =>
-                        {
-                            b1.Property<DateTime>("BudgetDate")
-                                .HasColumnType("date");
-
-                            b1.Property<decimal>("Amount")
-                                .HasColumnType("decimal(18, 2)")
-                                .HasColumnName("Amount");
-
-                            b1.HasKey("BudgetDate");
-
-                            b1.ToTable("Budgets");
-
-                            b1.WithOwner()
-                                .HasForeignKey("BudgetDate");
-                        });
-
-                    b.Navigation("Amount")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("FinanceApp.Models.Entities.Goals", b =>
