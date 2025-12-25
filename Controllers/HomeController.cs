@@ -23,9 +23,11 @@ public class HomeController : Controller
     public IActionResult Index()
     {
         var transactions = dbContext.Transactions.ToList();
+        var budgets = dbContext.Budgets.ToList();
         var viewModel = new TransactionIndexViewModel
         {
-            Transactions = transactions
+            Transactions = transactions,
+            Budgets = budgets
         };
         return View(viewModel);
     }
@@ -117,11 +119,51 @@ public class HomeController : Controller
         return RedirectToAction("Index");
     }
 
+    [HttpPost]
+    public async Task<IActionResult> BulkDeleteTransactions([FromForm] Guid[] transactionSelected)
+    {
+        if (transactionSelected == null || transactionSelected.Length == 0)
+        {
+            return RedirectToAction("Index");
+        }
+
+        var toRemove = dbContext.Transactions.Where(t => transactionSelected.Contains(t.Id)).ToList();
+        if (toRemove.Count == 0)
+        {
+            return RedirectToAction("Index");
+        }
+
+        dbContext.Transactions.RemoveRange(toRemove);
+        await dbContext.SaveChangesAsync();
+        return RedirectToAction("Index");
+    }
+
     [HttpGet("api/transactions")]
     public IActionResult GetTransactions()
     {
         var transactions = dbContext.Transactions.ToList();
         return Json(transactions);
+    }
+
+    [HttpGet]
+    public IActionResult CreateBudget() => View();
+
+    [HttpPost]
+    public async Task<IActionResult> CreateBudget(BudgetForm form)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(form);
+        }
+
+        var budget = new Budget
+        {
+            Date = form.Date,
+            Amount = new Currency(form.Amount)
+        };
+        dbContext.Add(budget);
+        await dbContext.SaveChangesAsync();
+        return RedirectToAction("Index");
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
